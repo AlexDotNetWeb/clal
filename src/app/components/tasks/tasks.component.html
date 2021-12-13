@@ -1,0 +1,91 @@
+<div class="task-cont">
+    <div class="main-right">
+        <div class="work-search">
+          <!-- <span>חפש עובד</span> -->
+          <!-- <select 
+            name="contactMethod" 
+            id="contactMethod" 
+            class="form-control"
+            (change)="onEmployeeChange($event)"
+            [(ngModel)]="employeeSelected.EmployeeName">
+            <option *ngFor="let employee of employees" [value]="employee.EmployeeName">{{ employee.EmployeeName }} <img  [src]="employee.EmployeePicture" />  </option>
+        </select> -->
+        <mat-form-field>
+            <mat-label>חפש עובד</mat-label>
+            <mat-select (selectionChange)="onEmployeeChange($event)" [(ngModel)]="employeeSelected.EmployeeName">
+              <mat-option *ngFor="let employee of employees" [value]="employee.EmployeeName">
+               <span style="display: flex;">
+                <img style="max-width: 30px;" src='{{employee.EmployeePicture}}'> <span>{{employee.EmployeeName}}</span>
+               </span>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="departments">
+          <mat-tree [dataSource]="dataSourceTree" [treeControl]="treeControl">
+            <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+              <button mat-icon-button disabled ></button>
+              <button mat-button color="primary" (click)="onDepartentChoose(node)">{{node.name}}</button> 
+            </mat-tree-node>
+            <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+              <button mat-icon-button matTreeNodeToggle
+                      [attr.aria-label]="'Toggle ' + node.name" >
+                <mat-icon class="mat-icon-rtl-mirror">
+                  {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                </mat-icon>
+              </button>
+              <button mat-button color="primary" (click)="onDepartentChoose(node)">{{node.name}}</button> 
+            </mat-tree-node>
+          </mat-tree>
+        </div>
+      </div> 
+      <div class="employee-dep-list">
+          <div class="name-emp" [class.fixed]="fixedTaskName">
+              {{EmployeeOrDepName}}
+          </div>
+    
+          <div >
+            <table mat-table [dataSource]="dataSourceTable" class="mat-elevation-z8">
+              <ng-container matColumnDef="TaskNumber">
+                <th mat-header-cell *matHeaderCellDef> מספר </th>
+                <td mat-cell *matCellDef="let element"> {{element.TaskNumber}} </td>
+              </ng-container>
+            
+              <ng-container matColumnDef="TaskName">
+                <th mat-header-cell *matHeaderCellDef> שם </th>
+                <td mat-cell *matCellDef="let element"> {{element.TaskName}} </td>
+              </ng-container>
+            
+              <ng-container matColumnDef="EmployeeName">
+                <th mat-header-cell *matHeaderCellDef> עובד </th>
+                <td mat-cell *matCellDef="let element"> {{element.EmployeeName}} </td>
+              </ng-container>
+            
+              <ng-container matColumnDef="DepartmentID">
+                <th mat-header-cell *matHeaderCellDef> מחלקה </th>
+                <td mat-cell *matCellDef="let element"> {{element.DepartmentID}} </td>
+              </ng-container>
+      
+              <ng-container matColumnDef="DueDate">
+                  <th mat-header-cell *matHeaderCellDef> תאריך אחרון </th>
+                  <td mat-cell *matCellDef="let element"> {{element.DueDate| date:'medium'}} </td>
+                </ng-container>
+              
+            
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"  [ngClass]="{'DatePassed': row.DatePassed}"></tr>
+
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="9999">
+                  אין רשומות
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <mat-paginator [pageSizeOptions]="[ 10, 20,50,100]"
+                 showFirstLastButtons 
+                 aria-label="Select page of periodic elements">
+  </mat-paginator>
+      </div>
+</div>

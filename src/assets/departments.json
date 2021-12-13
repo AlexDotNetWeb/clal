@@ -1,0 +1,7 @@
+[
+    {"DepartmentID":1,"DepartmentName":"dep 1","ParentID":0},
+    {"DepartmentID":2,"DepartmentName":"dep 2","ParentID":0},
+    {"DepartmentID":3,"DepartmentName":"dep 3","ParentID":0},
+    {"DepartmentID":4,"DepartmentName":"dep 3.1","ParentID":3},
+    {"DepartmentID":5,"DepartmentName":"dep 3.1.1","ParentID":4}
+]
